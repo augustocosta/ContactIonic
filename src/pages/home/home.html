@@ -1,14 +1,58 @@
 <ion-header>
   <ion-navbar>
     <ion-title>
-      Ionic Blank
+      Contacts Android
     </ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  The world is your oyster.
+  {{actionButton}} Contact
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <ion-item>
+            <ion-label floating>First Name</ion-label>
+            <ion-input type="text" [(ngModel)]="firstName" id="firstName"></ion-input>
+        </ion-item>
+      </ion-col>
+      <ion-col>
+        <ion-item>
+            <ion-label floating>Last Name</ion-label>
+            <ion-input type="text" [(ngModel)]="lastName" id="lastName"></ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <span *ngIf="id > 0">
+    <br>
+    <button ion-button round color="secondary" (click)="newContact()">
+      New Contact
+    </button>
+</span>
+  <br/><br/> 
+  <button ion-button round block icon-left (click)='addEditContact()'>
+    <ion-icon name="person"></ion-icon>
+    {{actionButton}} Contact
+  </button>
   <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will be your guide.
-  </p>
+  <span *ngIf="isLoading">Loading...</span>
+  <ion-list>
+    <ion-item-sliding *ngFor="let contact of contacts">
+      <ion-item>
+        <h2>{{contact.firstName}} {{contact.lastName}}</h2>
+      </ion-item>
+      <ion-item-options>
+        <button ion-button color="primary" (click)="editContact(contact)">
+          <ion-icon name="create"></ion-icon>
+          Edit
+        </button>
+        <button ion-button color="danger" (click)="presentConfirm(contact)">
+          <ion-icon name="trash"></ion-icon>
+          Delete
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+  
 </ion-content>
