@@ -6,9 +6,16 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-  {{actionButton}} Contact
-  <ion-grid>
+<ion-content padding *ngIf="!accessToken">
+  <button ion-button center round block (click)="facebookLogin()">
+    Log In with Facebook
+  </button>
+</ion-content>
+
+<ion-content padding *ngIf="accessToken">
+
+  <ion-grid *ngIf="accessToken">
+    {{actionButton}} Contact
     <ion-row>
       <ion-col>
         <ion-item>

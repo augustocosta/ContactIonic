@@ -2,12 +2,15 @@ import { Component } from '@angular/core';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { NavController } from 'ionic-angular';
 import { AlertController } from 'ionic-angular';
+import { Facebook } from '@ionic-native/facebook';
 
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
 })
 export class HomePage {
+
+  accessToken: any = null;
 
   url : string = "http://192.168.0.10/ContactRest/api/Contact/contacts";
   isLoading : boolean = false;
@@ -17,8 +20,11 @@ export class HomePage {
   public contacts : any;
   actionButton : string = "Add";
 
-  constructor(public navCtrl: NavController, public http: Http, private alertCtrl: AlertController) {
-    this.getContacts();
+  constructor(public navCtrl: NavController, public http: Http, private alertCtrl: AlertController, private facebook: Facebook) {
+    
+    if (this.accessToken != null){
+      this.getContacts();
+    }
   }
 
   newContact(){
@@ -29,17 +35,25 @@ export class HomePage {
     this.getContacts();
   }
 
+  getRequestOptions(){
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    headers.append('Authorization', this.accessToken);
+    
+    let opt: RequestOptions;
+
+    return opt = new RequestOptions({
+      headers: headers
+    });
+  }
+
   addEditContact() {
-    
-    let headers = new Headers({'Content-Type' : 'application/json'});
-    let options = new RequestOptions({ headers: headers });
-    
 
     if (this.id == 0){
 
       let body = JSON.stringify({firstName:this.firstName, lastName:this.lastName});
 
-      this.http.post(this.url, body, options)
+      this.http.post(this.url, body, this.getRequestOptions())
         .subscribe(data => {
 
           this.newContact();
@@ -52,7 +66,7 @@ export class HomePage {
 
       let body = JSON.stringify({id: this.id, firstName:this.firstName, lastName:this.lastName});
 
-      this.http.put(this.url, body, options)
+      this.http.put(this.url, body, this.getRequestOptions())
         .subscribe(data => {
 
           this.newContact();
@@ -64,8 +78,10 @@ export class HomePage {
   }
 
   getContacts(){
+    
     this.isLoading = true;
-    this.http.get(this.url)
+
+    this.http.get(this.url, this.getRequestOptions())
       .subscribe(data => {
         var obj = JSON.parse(data['_body']);
         this.contacts = obj.contacts;
@@ -84,7 +100,7 @@ export class HomePage {
 
   deleteContact(contact){
 
-    this.http.delete(this.url + "?id=" + contact.id)
+    this.http.delete(this.url + "?id=" + contact.id, this.getRequestOptions())
       .subscribe(data => {
         var obj = JSON.parse(data['_body']);
         console.log("res del >>> " + obj);
@@ -118,6 +134,18 @@ export class HomePage {
       ]
     });
     alert.present();
+  }
+
+  facebookLogin(){
+    this.facebook.login(['email']).then( (response) => {
+      
+      this.accessToken = response.authResponse.accessToken;
+      this.getContacts();
+
+    }).catch((error) => { 
+      console.log("error: " + error) 
+      this.accessToken = null;
+    });
   }
 
   handleError(error){

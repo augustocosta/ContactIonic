@@ -21,12 +21,14 @@
         "@angular/platform-browser": "4.1.3",
         "@angular/platform-browser-dynamic": "4.1.3",
         "@ionic-native/core": "3.12.1",
+        "@ionic-native/facebook": "^4.1.0",
         "@ionic-native/splash-screen": "3.12.1",
         "@ionic-native/status-bar": "3.12.1",
         "@ionic/storage": "2.0.1",
         "cordova-android": "^6.2.3",
         "cordova-plugin-console": "^1.0.5",
         "cordova-plugin-device": "^1.1.4",
+        "cordova-plugin-facebook4": "^1.9.1",
         "cordova-plugin-splashscreen": "^4.0.3",
         "cordova-plugin-statusbar": "^2.2.2",
         "cordova-plugin-whitelist": "^1.3.1",
@@ -52,7 +54,11 @@
             "cordova-plugin-device": {},
             "cordova-plugin-splashscreen": {},
             "cordova-plugin-statusbar": {},
-            "ionic-plugin-keyboard": {}
+            "ionic-plugin-keyboard": {},
+            "cordova-plugin-facebook4": {
+                "APP_ID": "319691458441639",
+                "APP_NAME": "Contact Rest"
+            }
         },
         "platforms": [
             "android"
