@@ -11,10 +11,13 @@ import { Facebook } from '@ionic-native/facebook';
 export class HomePage {
 
   accessToken: any = null;
+  photoUrl: any = null;
+  fbname : string = "";
 
   url : string = "http://192.168.0.10/ContactRest/api/Contact/contacts";
   isLoading : boolean = false;
   id : number = 0;
+  
   firstName : string = "";
   lastName : string = "";
   public contacts : any;
@@ -140,6 +143,19 @@ export class HomePage {
     this.facebook.login(['email']).then( (response) => {
       
       this.accessToken = response.authResponse.accessToken;
+
+      var userId : number;
+
+      this.facebook.api("/me?fields=id,name,first_name,last_name,picture.type(normal)", []).then((response)=> {
+
+        //console.log(JSON.stringify(response));
+
+        userId = response.id;
+        this.fbname = response.name;
+        this.photoUrl = response.picture.data.url;
+
+      }, (err) => {console.log(JSON.stringify(err));});
+
       this.getContacts();
 
     }).catch((error) => { 

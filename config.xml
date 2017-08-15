@@ -3,7 +3,7 @@
     <name>Contact Rest</name>
     <description>An awesome Ionic/Cordova app.</description>
     <author email="hi@ionicframework" href="http://ionicframework.com/">Ionic Framework Team</author>
-    <content original-src="index.html" src="http://192.168.0.10:8100" />
+    <content src="index.html" />
     <access origin="*" />
     <allow-navigation href="http://ionic.local/*" />
     <allow-intent href="http://*/*" />
@@ -82,7 +82,7 @@
     <plugin name="cordova-plugin-console" spec="^1.0.5" />
     <plugin name="cordova-plugin-device" spec="^1.1.4" />
     <plugin name="cordova-plugin-facebook4" spec="^1.9.1">
-        <variable name="APP_ID" value="00000000000" />
+        <variable name="APP_ID" value="000000000" />
         <variable name="APP_NAME" value="Contact Rest" />
     </plugin>
     <plugin name="cordova-plugin-splashscreen" spec="^4.0.3" />
